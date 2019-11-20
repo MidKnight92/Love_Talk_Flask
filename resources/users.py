@@ -10,3 +10,4 @@ users = Blueprint('users', 'users')
 @users.route('/', methods=['GET'])
 def test_user_controller():
 	return "heeyyyyyyyyyy"
+	

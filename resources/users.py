@@ -52,7 +52,7 @@ def login():
 
 # EDIT USERS PROFILE
 @users.route('/', methods=['PUT'])
-#@login_required
+@login_required
 def update_user():
 	payload = request.get_json()
 	# users = models.Users.get(models.User.id == current_user.id)
@@ -87,8 +87,22 @@ def logout():
 
 # Delete Users Account
 @users.route('/', methods=['Delete'])
+@login_required
 def delete_account():
-	return"uuggga booga"
+	if(current_user.is_authenticated):
+		username = current_user.username
+		current_user.delete_instance()
+		return jsonify(data='Sucessfully Deleted', status={
+			'code': 200,
+			"message": "{} Deleted Sucessfully".format(username)
+			})
+	else: 
+		return jsonify(data="Forbidden", status={
+			'code': 403,
+			'message': "User can only delete there Account"
+			}), 403
+
+
 	
 # The return value of delete_instance() is the number of rows removed from the database.
 

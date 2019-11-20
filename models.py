@@ -12,7 +12,7 @@ class User(UserMixin, Model):
 	email = CharField()
 	age = IntegerField(default=18)
 	bio = CharField()
-	orientation = CharField()
+	preference = CharField()
 	gender = CharField()
 	# constructor to connect to DB
 	class Meta :

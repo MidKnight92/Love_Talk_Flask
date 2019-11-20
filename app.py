@@ -10,6 +10,7 @@ DEBUG = True
 PORT = 8000
 
 app = Flask(__name__)
+app.secret_key = "this is a super secret"
 
 #CORS 
 # it's also a way that servers can say -- here's who I'm expecting to hear from, to only let certain origins communicate with that server (security)
@@ -32,15 +33,18 @@ def after_request(response):
 	return response
 
 # --------------- NEED THIS LATER --
-# login_manager = LoginManager()
+login_manager = LoginManager()
 
-# login_manager.init_app(app)
+login_manager.init_app(app)
 
 
 # This sets the callback for reloading a user from the session. The function you set should take a user ID (a unicode) and return a user object, or None if the user does not exist.
-# @login_manager.user_loader
-# def load_user(userId):
-	#return jsonify(data=)
+@login_manager.user_loader
+def load_user(userid):
+	try:
+		return models.User.get(models.User.id == userid)
+	except models.DoesNotExist:
+		return None
 
 
 # ------ ^ NEED THIS LATER  ^ ----

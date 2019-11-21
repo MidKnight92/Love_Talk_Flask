@@ -32,6 +32,8 @@ def create_message(recipient_user_id):
 		sender_user = current_user.id,
 		recipient_user = recipient_user_id)
 	message_model = model_to_dict(message)
+	message_model['recipient_user'].pop('password')
+	message_model['sender_user'].pop('password')
 	return jsonify(data=message_model, status={
 		'code': 201,
 		'message': 'Message was successfully created'

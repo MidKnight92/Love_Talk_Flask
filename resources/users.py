@@ -6,7 +6,6 @@ from flask_login import login_user, current_user, logout_user, login_required
 from playhouse.shortcuts import model_to_dict
 
 users = Blueprint('users', 'users')
-
 @users.route('/', methods=['GET'])
 def list_users():
 	users = models.User.select()

@@ -32,7 +32,7 @@ def after_request(response):
 	g.db.close()
 	return response
 
-# --------------- NEED THIS LATER --
+
 login_manager = LoginManager()
 
 login_manager.init_app(app)
@@ -46,8 +46,14 @@ def load_user(userid):
 	except models.DoesNotExist:
 		return None
 
-
-# ------ ^ NEED THIS LATER  ^ ----
+@login_manager.unauthorized_handler
+def unauthorized():
+	return jsonify(data={
+		'error': 'User not logged in'
+		}, status={
+		'code': 401,
+		'message': 'You must have an account to do that'
+		}), 401
 
 if __name__ == '__main__':
 	models.initialize()

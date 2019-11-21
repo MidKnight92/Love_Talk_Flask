@@ -7,6 +7,7 @@ from playhouse.shortcuts import model_to_dict
 messages = Blueprint('messages', 'messages')
 
 @messages.route('/', methods=['GET'])
+@login_required
 def get_messages():
 	try:
 		messages_instances = models.Message.select().where(
@@ -24,7 +25,7 @@ def get_messages():
 		}), 401
 
 @messages.route('/<recipient_user_id>', methods=['POST'])
-#@login_required
+@login_required
 def create_message(recipient_user_id):
 	payload = request.get_json()
 	message = models.Message.create(message_text=payload['message_text'],

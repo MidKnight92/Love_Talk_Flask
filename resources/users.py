@@ -9,7 +9,16 @@ users = Blueprint('users', 'users')
 
 @users.route('/', methods=['GET'])
 def list_users():
-	return "heeyyyyyyyyyy"
+	users = models.User.select()
+
+	user_dicts = [model_to_dict(user) for user in users]
+
+	for user in user_dicts:
+		print(user['password'])
+		del user['password']
+
+	return jsonify(data=user_dicts), 200
+	
 
 # POST(ing data) user is registering
 @users.route('/register', methods=['POST'])
@@ -28,7 +37,7 @@ def register():
 		print(user_dict)
 		del user_dict['password']
 		return jsonify(data=user_dict, status={'code': 201, 
-			'message': 'Sucessfully registered {}'.format(user_dict(['email']))}),201
+			'message': 'Sucessfully registered {}'.format(user_dict(['email']))}), 201
 	# You can also add a person by calling the create() method, which returns a model instance:
 
 # POST(ing data) USER IS LOGGING IN

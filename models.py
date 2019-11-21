@@ -19,10 +19,10 @@ class User(UserMixin, Model):
 		database = DATABASE
 
 class Message(Model):
-	sender_user_id = ForeignKeyField(User, backref='messages')
+	sender_user = ForeignKeyField(User, backref='messages')
 	message_text = CharField()
 	date = TimestampField()
-	recipent_user_id = ForeignKeyField(User, backref='messages') 
+	recipient_user = ForeignKeyField(User, backref='messages') 
 	# constructor to connect to DB
 	class Meta :
 		database = DATABASE

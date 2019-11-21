@@ -34,10 +34,8 @@ def register():
 		user = models.User.create(**payload)
 		login_user(user)
 		user_dict = model_to_dict(user)
-		print(user_dict)
 		del user_dict['password']
-		return jsonify(data=user_dict, status={'code': 201, 
-			'message': 'Sucessfully registered {}'.format(user_dict(['email']))}), 201
+		return jsonify(data=user_dict, status={'code': 201, 'message': 'Sucessfully registered {}'.format(user_dict['email'])}), 201
 	# You can also add a person by calling the create() method, which returns a model instance:
 
 # POST(ing data) USER IS LOGGING IN

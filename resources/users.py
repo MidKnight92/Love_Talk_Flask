@@ -6,18 +6,31 @@ from flask_login import login_user, current_user, logout_user, login_required
 from playhouse.shortcuts import model_to_dict
 
 users = Blueprint('users', 'users')
+
+# get users of other gender from logged in user and who fit logged in user's pref
+@login_required
 @users.route('/', methods=['GET'])
 def list_users():
-	users = models.User.select()
+
+	# if( as == asdf && asdf == this) 
+
+	users = models.User.select().where(current_user.preference == models.User.gender and  current_user.gender == models.User.preference)
 
 	user_dicts = [model_to_dict(user) for user in users]
 
-	for user in user_dicts:
-		print(user['password'])
-		del user['password']
+	users_match = []
 
-	return jsonify(data=user_dicts), 200
-	
+	for user in user_dicts:
+		if user['id'] != current_user.id:
+			users_match.append(user)
+
+		print(user['password'])
+		user.pop('password')
+			
+	# delete self
+ 
+
+	return jsonify(data=users_match), 200
 
 # POST(ing data) user is registering
 @users.route('/register', methods=['POST'])

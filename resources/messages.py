@@ -38,6 +38,7 @@ def create_message(recipient_user_id):
 		'code': 201,
 		'message': 'Message was successfully created'
 		}), 201
+	
 @messages.route('/<id>', methods=["Delete"])
 @login_required
 def delete_message(id):

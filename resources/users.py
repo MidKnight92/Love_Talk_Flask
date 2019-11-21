@@ -11,18 +11,18 @@ users = Blueprint('users', 'users')
 @login_required
 @users.route('/', methods=['GET'])
 def list_users():
+	user_preference = models.User.select().where(current_user.preference == models.User.gender)
 
-	# if( as == asdf && asdf == this) 
+	reciprocated = [user for user in user_preference if current_user.gender == user.preference]
 
-	users = models.User.select().where(current_user.preference == models.User.gender and  current_user.gender == models.User.preference)
-
-	user_dicts = [model_to_dict(user) for user in users]
+	user_dicts = [model_to_dict(user) for user in reciprocated]
 
 	users_match = []
 
 	for user in user_dicts:
 		if user['id'] != current_user.id:
 			users_match.append(user)
+
 
 		print(user['password'])
 		user.pop('password')

@@ -52,10 +52,3 @@ def delete_message(id):
 			'code': 200,
 			"message": "{} deleted successfully".format(message_text)
 		})
-	
-
-	# This should query the messages that the user sent and received 
-	# query = (Users
- #         .select(Messages, Users)
- #         .join(Users)
- #         .where(Messages.user_id == sender_user_id and Messages.user_id == recipient_user_id))

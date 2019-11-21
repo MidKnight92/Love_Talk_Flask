@@ -7,8 +7,21 @@ from playhouse.shortcuts import model_to_dict
 messages = Blueprint('messages', 'messages')
 
 @messages.route('/', methods=['GET'])
-def test_message_controller():
-	return "boooooooo"
+def get_messages():
+	try:
+		messages_instances = models.Message.select().where(
+			models.Message.recipient_user_id == current_user.id
+		)
+		messages_dict = [model_to_dict(message) for message in messages_instances]
+		return jsonify(data=messages_dict, status={
+			'code': 200,
+			"message": "Success"
+		}), 200
+	except models.DoesNotExist:
+		return jsonify(data={}, status={
+			"code": 401,
+			"message": "error"
+		}), 401
 
 @messages.route('/<recipient_user_id>', methods=['POST'])
 #@login_required
@@ -22,7 +35,23 @@ def create_message(recipient_user_id):
 		'code': 201,
 		'message': 'Message was successfully created'
 		}), 201
-
+@messages.route('/<id>', methods=["Delete"])
+@login_required
+def delete_message(id):
+	message_to_delete = models.Message.get_by_id(id)
+	if message_to_delete.recipient_user_id != current_user.id:
+		return jsonify(data="Forbidden", status={
+			'code': 403,
+			'message': "user can only delete their own message"
+			}), 403
+	else:
+		message_text = message_to_delete.message_text
+		message_to_delete.delete_instance()
+		return jsonify(data='deleted successfully', status={
+			'code': 200,
+			"message": "{} deleted successfully".format(message_text)
+		})
+	
 
 	# This should query the messages that the user sent and received 
 	# query = (Users

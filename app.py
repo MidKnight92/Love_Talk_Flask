@@ -14,8 +14,8 @@ app.secret_key = "this is a super secret"
 
 #CORS 
 # it's also a way that servers can say -- here's who I'm expecting to hear from, to only let certain origins communicate with that server (security)
-CORS(users, origins=['http://localhost:3000'], support_credentials=True)
-CORS(messages, origins=['http://localhost:3000'], support_credentials=True)
+CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(messages, origins=['http://localhost:3000'], supports_credentials=True)
 # supports_credentials=True -- lets us take requests with cookies attached
 # so we can use sessions
 
